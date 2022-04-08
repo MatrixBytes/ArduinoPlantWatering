@@ -1,6 +1,6 @@
-const int perf = 20;
-const int relay = 10;
-const int sensor = A0;
+const int perf = 20;   // perfect percentage
+const int relay = 10;  // relay port
+const int sensor = A0; // sensor port
 
 void setup() {
   Serial.begin(9600);
@@ -15,18 +15,17 @@ void addwater() {
 }
 
 void loop() {
-  int feuchtigkeit = analogRead(sensor);
-  int percentage = map(feuchtigkeit,550,0,0,100);
+  int moisture = analogRead(sensor);
+  int percentage = map(moisture,550,0,0,100);
+  // the higher the moisture, the lower the output
+  // the less the moisture, the greater the output
   Serial.println("========================");
   Serial.print("Handling new data: ");
   Serial.print(percentage);
   Serial.print("%, Raw: ");
-  Serial.println(feuchtigkeit);
+  Serial.println(moisture);
   Serial.print("Action: ");
   if (percentage >= perf) { Serial.println("none, enough water"); }
   if (percentage < perf) { Serial.println("not enough water, adding some"); addwater(); }
   delay(2500);
 }
-
-// je höher die feuchtigkeit desto kleiner der output
-// je weniger die feuchtigkeit desto größer der output
